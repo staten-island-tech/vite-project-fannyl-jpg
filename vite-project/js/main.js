@@ -1,19 +1,5 @@
 import "../styles/style.css";
-import javascriptLogo from "../public/vite.svg";
-import { setupCounter } from "../counter.js";
-
-setupCounter(document.querySelector("#counter"));
-
-document.querySelector(".btn").addEventListener("click", function () {
-  if (document.body.classList.contains("cool")) {
-    document.body.classList.add("warm");
-    document.body.classList.remove("cool");
-  } else {
-    document.body.classList.add("cool");
-    document.body.classList.remove("warm");
-  }
-});
-
+import { menu } from "../js/menu.js";
 document.querySelector("#app").innerHTML = `
   <div>
     <a href="https://vitejs.dev" target="_blank">
@@ -31,3 +17,16 @@ document.querySelector("#app").innerHTML = `
     </p>
   </div>
 `;
+console.log(menu);
+
+setupCounter(document.querySelector("#counter"));
+
+document.querySelector(".btn").addEventListener("click", function () {
+  if (document.body.classList.contains("cool")) {
+    document.body.classList.add("warm");
+    document.body.classList.remove("cool");
+  } else {
+    document.body.classList.add("cool");
+    document.body.classList.remove("warm");
+  }
+});

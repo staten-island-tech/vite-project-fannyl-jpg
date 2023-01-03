@@ -1,66 +1,68 @@
 const menu = [
   {
-    name: "Shoyu (soy sauce)",
-    vegetarian: false,
-    price: 14.0,
-    img: "./images/Miso.jpg",
-    inStock: true,
+    title: "Shoyu (soy sauce)",
+    category: "ramen",
+    price: 18.99,
+    img: "miso.jpg",
   },
   {
-    name: "Shio (salt)",
-    vegetarian: false,
-    price: 14.0,
-    img: "./images/Shio.jpg",
-    inStock: true,
+    title: "Shio (salt)",
+    category: "ramen",
+    price: 19.99,
+    img: "Shio.jpg",
   },
   {
-    name: "Miso (soybean paste)",
-    vegetarian: false,
-    price: 18.0,
-    img: "./images/Miso.jpg",
-    inStock: true,
+    title: "Miso (soybean paste)",
+    category: "ramen",
+    price: 17.99,
+    img: "Miso.jpg",
   },
   {
-    name: "Tonkotsu (pork bone)",
-    vegetarian: false,
-    price: 16.0,
-    img: "./images/Tonkotsu.jpg",
-    inStock: false,
+    title: "Tonkotsu (pork bone)",
+    category: "ramen",
+    price: 13.99,
+    img: "Tonkotsu.jpg",
   },
   {
-    name: "Roast Chicken",
-    vegetarian: false,
-    price: 8.0,
-    img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-    inStock: true,
+    title: "Chashu",
+    category: "toppings",
+    price: 3.99,
+    img: "Chashu.jpg",
   },
   {
-    name: "Steak",
-    vegetarian: false,
-    price: 10.0,
-    img: "https://images.unsplash.com/photo-1574969884448-fe5bce3d0d51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80",
-    inStock: false,
+    title: "Menma",
+    category: "toppings",
+    price: 8.99,
+    img: "menma.jpg",
   },
   {
-    name: "Cheeseburger",
-    vegetarian: false,
-    price: 6,
-    img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=902&q=80",
-    inStock: true,
+    title: "Negi",
+    category: "toppings",
+    price: 4.99,
+    img: "Negi.jpg",
   },
   {
-    name: "Ice Cream",
-    vegetarian: false,
-    price: 3.0,
-    img: "https://images.unsplash.com/photo-1566454419290-57a64afe30ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
-    inStock: true,
+    title: "Gyoza",
+    category: "sides",
+    price: 9.99,
+    img: "Gyoza.jpg",
+  },
+  {
+    title: "Fried rice",
+    category: "sides",
+    price: 7.99,
+    img: "Friedrice.jpg",
+  },
+  {
+    title: "Drinks",
+    category: "sides",
+    price: 2.99,
+    img: "Drinks.jpg",
   },
 ];
 
-// get parent element
 const sectionCenter = document.querySelector(".section-center");
 const btnContainer = document.querySelector(".btn-container");
-// display all items when page loads
 window.addEventListener("DOMContentLoaded", function () {
   diplayMenuItems(menu);
   displayMenuButtons();
@@ -68,7 +70,6 @@ window.addEventListener("DOMContentLoaded", function () {
 
 function diplayMenuItems(menuItems) {
   let displayMenu = menuItems.map(function (item) {
-    // console.log(item);
 
     return `<article class="menu-item">
           <img src=${item.img} alt=${item.title} class="photo" />
@@ -77,14 +78,10 @@ function diplayMenuItems(menuItems) {
               <h4>${item.title}</h4>
               <h4 class="price">$${item.price}</h4>
             </header>
-            <p class="item-text">
-              ${item.desc}
-            </p>
           </div>
         </article>`;
   });
   displayMenu = displayMenu.join("");
-  // console.log(displayMenu);
 
   sectionCenter.innerHTML = displayMenu;
 }
@@ -112,10 +109,10 @@ function displayMenuButtons() {
 
   filterBtns.forEach(function (btn) {
     btn.addEventListener("click", function (e) {
-      // console.log(e.currentTarget.dataset);
+    
       const category = e.currentTarget.dataset.id;
       const menuCategory = menu.filter(function (menuItem) {
-        // console.log(menuItem.category);
+       
         if (menuItem.category === category) {
           return menuItem;
         }
@@ -129,4 +126,15 @@ function displayMenuButtons() {
   });
 }
 
-/* export { menu }; */
+document.querySelector(".btn").addEventListener("click", function () {
+  if (document.body.classList.contains("cool")) {
+    document.body.classList.add("warm");
+    document.body.classList.remove("cool");
+  } else {
+    document.body.classList.add("cool");
+    document.body.classList.remove("warm");
+  }
+});
+
+/* 
+export { menu }; */

@@ -134,5 +134,4 @@ document.querySelector(".btn").addEventListener("click", function () {
   }
 });
 
-/* 
-export { menu }; */
+export { menu };

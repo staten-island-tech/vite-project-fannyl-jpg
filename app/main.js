@@ -1,137 +1,52 @@
-import "./style.css";
-const menu = [
-  {
-    title: "Shoyu (soy sauce)",
-    category: "ramen",
-    price: 18.99,
-    img: "miso.jpg",
-  },
-  {
-    title: "Shio (salt)",
-    category: "ramen",
-    price: 19.99,
-    img: "Shio.jpg",
-  },
-  {
-    title: "Miso (soybean paste)",
-    category: "ramen",
-    price: 17.99,
-    img: "miso.jpg",
-  },
-  {
-    title: "Tonkotsu (pork bone)",
-    category: "ramen",
-    price: 13.99,
-    img: "Tonkotsu.jpg",
-  },
-  {
-    title: "Chashu",
-    category: "toppings",
-    price: 3.99,
-    img: "Chashu.jpg",
-  },
-  {
-    title: "Menma",
-    category: "toppings",
-    price: 8.99,
-    img: "menma.jpg",
-  },
-  {
-    title: "Negi",
-    category: "toppings",
-    price: 4.99,
-    img: "Negi.jpg",
-  },
-  {
-    title: "Gyoza",
-    category: "sides",
-    price: 9.99,
-    img: "Gyoza.jpg",
-  },
-  {
-    title: "Fried rice",
-    category: "sides",
-    price: 7.99,
-    img: "Friedrice.jpg",
-  },
-  {
-    title: "Drinks",
-    category: "sides",
-    price: 2.99,
-    img: "Drinks.jpg",
-  },
-];
+import './style.css'
+import { setupCounter } from './counter.js'
 
-const sectionCenter = document.querySelector(".section-center");
-const btnContainer = document.querySelector(".btn-container");
-window.addEventListener("DOMContentLoaded", function () {
-  diplayMenuItems(menu);
-  displayMenuButtons();
-});
+let colorsArray = [`#AC1F20`, `#D82526`, `#E24F50`, `#EA7A7A`, `#F1A5A6`];
+let isFeched = false;
+document.getElementById("color-scheme-button").addEventListener("click", () => {
+  const colorHex = document.getElementById("color-input").value.slice(1);
+  const colorScheme = document
+    .getElementById("select-mode")
+    .value.toLowerCase();
 
-function diplayMenuItems(menuItems) {
-  let displayMenu = menuItems.map(function (item) {
-    return `<article class="menu-item">
-          <img src=${item.img} alt=${item.title} class="photo" />
-          <div class="item-info">
-            <header>
-              <h4>${item.title}</h4>
-              <h4 class="price">$${item.price}</h4>
-            </header>
-          </div>
-        </article>`;
-  });
-  displayMenu = displayMenu.join("");
-
-  sectionCenter.innerHTML = displayMenu;
-}
-function displayMenuButtons() {
-  const categories = menu.reduce(
-    function (values, item) {
-      if (!values.includes(item.category)) {
-        values.push(item.category);
-      }
-      return values;
-    },
-    ["all"]
-  );
-  const categoryBtns = categories
-    .map(function (category) {
-      return `<button type="button" class="filter-btn" data-id=${category}>
-          ${category}
-        </button>`;
-    })
-    .join("");
-
-  btnContainer.innerHTML = categoryBtns;
-  const filterBtns = btnContainer.querySelectorAll(".filter-btn");
-  console.log(filterBtns);
-
-  filterBtns.forEach(function (btn) {
-    btn.addEventListener("click", function (e) {
-      const category = e.currentTarget.dataset.id;
-      const menuCategory = menu.filter(function (menuItem) {
-        if (menuItem.category === category) {
-          return menuItem;
-        }
-      });
-      if (category === "all") {
-        diplayMenuItems(menu);
-      } else {
-        diplayMenuItems(menuCategory);
-      }
+  fetch(
+    `https://www.thecolorapi.com/scheme?hex=${colorHex}&mode=${colorScheme}&count=5`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      colorsArray = data.colors;
+      isFeched = true;
+      render(colorsArray);
     });
-  });
-}
-
-document.querySelector(".btn").addEventListener("click", function () {
-  if (document.body.classList.contains("cool")) {
-    document.body.classList.add("warm");
-    document.body.classList.remove("cool");
-  } else {
-    document.body.classList.add("cool");
-    document.body.classList.remove("warm");
-  }
 });
 
-export { menu };
+function render(data) {
+  let html = "";
+
+  data.forEach((item) => {
+    const hexCode = isFeched ? item.hex.value : item;
+    html += `
+          <div class="pallete" style="background:${hexCode}"> 
+                  <span class="hex-color" data-hex="${hexCode}" id=${hexCode}>${hexCode}</span>
+                </div>
+        `;
+  });
+  document.getElementById("color-scheme-container").innerHTML = html;
+}
+render(colorsArray);
+
+document
+  .querySelector("#color-scheme-container")
+  .addEventListener("click", (e) => {
+    if (e.target.dataset.hex) {
+      const copyHex = e.target.dataset.hex;
+      // navigator.clipboard.writeText(copyHex);
+
+      document.getElementById(`${copyHex}`).textContent = "copied!!";
+      document.getElementById(`${copyHex}`).style.background = "#f4f4f4";
+      setTimeout(() => {
+        document.getElementById(`${copyHex}`).textContent = copyHex;
+        document.getElementById(`${copyHex}`).style.background = "#fff";
+      }, 1000);
+    }
+  });
